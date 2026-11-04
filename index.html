@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- SITE_URL: https://TODO-DOMAINE.vercel.app -->
+<title>Ulguy Martial · Développeur full-stack en alternance</title>
+<meta name="description" content="Portfolio d'Ulguy Martial, étudiant en BUT Informatique / EFREI, à la recherche d'une alternance de 3 ans en développement full-stack.">
+<meta property="og:title" content="Ulguy Martial · Développeur full-stack">
+<meta property="og:description" content="Un portfolio-jeu : explore, gagne de l'XP, débloque mes projets.">
+<meta property="og:image" content="https://TODO-DOMAINE.vercel.app/assets/images/profil.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&family=Plus+Jakarta+Sans:wght@700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<div id="intro" aria-label="Départ"><div class="lights"><i></i><i></i><i></i><i></i><i></i></div><p>Lights out… <button id="skip" class="btn ghost">Passer</button></p></div>
+
+<header class="hud">
+  <a href="#top" class="logo">UM</a>
+  <div class="xp"><span id="lvl">Niv. 1</span><div class="bar"><b id="xpfill"></b></div><span id="xptxt">0 XP</span></div>
+  <a href="#contact" class="btn small">Aller à l'essentiel</a>
+</header>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<main id="top">
+<section class="hero">
+  <img src="assets/images/profil.jpg" alt="Portrait d'Ulguy Martial" class="avatar">
+  <div>
+    <h1>Salut, moi c'est Ulguy&nbsp;!</h1>
+    <p class="lead">Étudiant en BUT Informatique et à l'EFREI, je cherche une <strong>alternance de 3 ans</strong> (1 semaine / 1 semaine) en développement full-stack.</p>
+    <p>React, Supabase, Django, Java. Ce portfolio est un niveau : explore-le pour gagner de l'XP.</p>
+    <div class="row"><a href="#projets" class="btn">Commencer l'aventure</a><a href="#contact" class="btn blue">Me contacter</a></div>
+  </div>
+</section>
+
+<section id="projets">
+  <h2>La carte des projets</h2>
+  <p class="sub">Clique sur un nœud pour l'ouvrir (+15 XP chacun).</p>
+  <ol class="path" id="path"></ol>
+</section>
+
+<section id="perso">
+  <h2>Projets persos</h2>
+  <p class="sub">Mes réalisations en dehors des cours. Cliquer un lien rapporte +15 XP.</p>
+  <div class="perso-grid" id="perso-grid"></div>
+</section>
+
+<section id="skills">
+  <h2>Badges de compétences</h2>
+  <p class="sub">Touche un badge pour voir où je l'ai utilisé.</p>
+  <div class="badges" id="badges"></div>
+</section>
+
+<section id="quetes">
+  <h2>Quêtes du jour</h2>
+  <ul class="quests" id="quests"></ul>
+</section>
+
+<section id="hors-piste">
+  <h2>Hors-piste</h2>
+  <div class="stats">
+    <div class="stat" style="--c:#ff4b4b"><b>Formule 1</b><span>Je suis la saison course par course.</span></div>
+    <div class="stat" style="--c:#ffc800"><b>Échecs</b><span>Un mat en 2 coups ? <a href="https://lichess.org/training" target="_blank" rel="noopener">Entraîne-toi sur Lichess</a></span></div>
+    <div class="stat" style="--c:#ff9600"><b>Basket-ball</b><span>Et outdoor dès que l'occasion se présente.</span></div>
+    <div class="stat" style="--c:#ce82ff"><b>Jeux vidéo</b><span>Ils m'ont donné envie de coder le mien avec Godot.</span></div>
+  </div>
+</section>
+
+<section id="contact">
+  <h2>Niveau final : on s'écrit ?</h2>
+  <div class="row">
+    <a class="btn" data-contact href="mailto:ulguym@gmail.com">Email</a>
+    <a class="btn blue" data-contact target="_blank" rel="noopener" href="https://www.linkedin.com/in/ulguy-martial-550b06292/">LinkedIn</a>
+    <a class="btn ghost" data-contact target="_blank" rel="noopener" href="https://github.com/MARTIALUlguy">GitHub</a>
+    <a class="btn ghost" data-contact href="tel:+33782680480">07 82 68 04 80</a>
+  </div>
+</section>
+</main>
+<footer>© 2026 Ulguy Martial · Brétigny-sur-Orge (91)</footer>
+
+<dialog id="modal"><form method="dialog"><button class="close" aria-label="Fermer">✕</button></form><div id="mbody"></div></dialog>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/script.js"></script>
+</body>
+</html>
