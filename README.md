@@ -120,3 +120,13 @@ vercel --prod
 ## Prochaines étapes
 
 Voir [TODO.md](TODO.md) pour la liste des informations à fournir.
+
+## TODO restants (à compléter)
+
+- **photo** : `public/profil.jpg` à fournir (remplacer le data-URI actuel)
+- **PDF des CV** : Ajouter les fichiers PDF pour CV (FR) et CV (EN), et activer les boutons dans Contact.jsx
+- **liens d'AudioNote** : Fournir les URLs Vercel et GitHub pour AudioNote (actuellement boutons désactivés « bientôt »)
+- **captures shot** : Ajouter les captures d'écran (`shot`) pour les projets dans `data/projects.js`
+- **stack du bridge** : Confirmer et compléter la stack technique pour le projet Application de bridge
+- **TypeScript pour Open Cowork** : Mettre à jour l'information sur l'utilisation de TypeScript dans le projet Open Cowork
+- **URL absolue og:image** : Remplacer `https://TODO-DOMAINE.vercel.app/profil.jpg` par l'URL réelle dans les meta tags
