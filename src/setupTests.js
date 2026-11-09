@@ -9,17 +9,7 @@ class MockIntersectionObserver {
   }
   
   observe(element) {
-    // Simuler une intersection à 100%
-    setTimeout(() => {
-      this.callback([
-        {
-          isIntersecting: true,
-          intersectionRatio: 1.0,
-          target: element,
-          time: Date.now()
-        }
-      ]);
-    }, 10);
+    this.target = element;
   }
   
   unobserve() {}
@@ -39,6 +29,7 @@ class MockResizeObserver {
 
 class MockAudioContext {
   constructor() {
+    MockAudioContext.instances.push(this);
     this.currentTime = 0;
     this.sampleRate = 44100;
     this.state = 'running';
@@ -90,6 +81,8 @@ class MockAudioContext {
     return Promise.resolve();
   }
 }
+
+MockAudioContext.instances = [];
 
 // Mock matchMedia
 const mockMatchMedia = query => ({
