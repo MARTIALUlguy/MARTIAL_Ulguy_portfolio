@@ -1,19 +1,21 @@
-import { useAppContext } from '../state/AppContext';
+import { useAppContext, useRevLightsContext } from '../state/AppContext';
 
 /**
- * Hook pour gérer la progression de scroll et les secteurs
- * @returns {Object} { scrollProgress, seen, updateSeen, revLights, sectors }
+ * Hook pour gérer les secteurs de progression.
+ * @returns {Object} { seen, updateSeen, sectors, allSectorsOn }
  */
 export function useProgress() {
   const {
-    scrollProgress,
     seen,
     updateSeen,
-    revLights,
     sectors,
     allSectorsOn
   } = useAppContext();
-  return { scrollProgress, seen, updateSeen, revLights, sectors, allSectorsOn };
+  return { seen, updateSeen, sectors, allSectorsOn };
+}
+
+export function useRevLights() {
+  return useRevLightsContext();
 }
 
 export default useProgress;

@@ -2,6 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useRef, use
 import { t as translate } from '../data/i18n';
 
 const AppContext = createContext(null);
+const RevLightsContext = createContext(null);
 
 function getSystemTheme() {
   if (typeof window !== 'undefined' && typeof window.matchMedia === 'function') {
@@ -201,7 +202,7 @@ export function AppProvider({ children }) {
     }
   }, []);
 
-  const revLights = useCallback(() => {
+  const revLights = useMemo(() => {
     const litCount = 1 + Math.round(scrollProgress * 9);
     return Array.from({ length: 10 }, (_, index) => {
       const on = index < litCount;
@@ -233,19 +234,23 @@ export function AppProvider({ children }) {
     handleUserGesture,
     beep,
     door,
-    scrollProgress,
     seen,
     updateSeen,
-    revLights,
     sectors,
     allSectorsOn
   }), [
     lang, setLang, t, toggleLang, theme, setTheme, toggleTheme,
     soundLevel, toggleSound, getSoundLabel, handleUserGesture, beep, door,
-    scrollProgress, seen, updateSeen, revLights, sectors, allSectorsOn
+    seen, updateSeen, sectors, allSectorsOn
   ]);
 
-  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+  return (
+    <AppContext.Provider value={value}>
+      <RevLightsContext.Provider value={revLights}>
+        {children}
+      </RevLightsContext.Provider>
+    </AppContext.Provider>
+  );
 }
 
 export function useAppContext() {
@@ -254,4 +259,12 @@ export function useAppContext() {
     throw new Error('App hooks must be used within an AppProvider.');
   }
   return context;
+}
+
+export function useRevLightsContext() {
+  const revLights = useContext(RevLightsContext);
+  if (!revLights) {
+    throw new Error('Rev lights must be used within an AppProvider.');
+  }
+  return revLights;
 }

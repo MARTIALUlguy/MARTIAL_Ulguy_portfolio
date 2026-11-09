@@ -30,7 +30,7 @@ function getInitialDoorState() {
  */
 export default function App() {
   const { beep } = useSound();
-  const { updateSeen, revLights, sectors } = useProgress();
+  const { updateSeen, sectors } = useProgress();
   
   const [activeTab, setActiveTab] = useState(0);
   const [doorState, setDoorState] = useState(getInitialDoorState);
@@ -81,7 +81,6 @@ export default function App() {
       <Hud 
         onTabChange={handleTabChange}
         activeTab={activeTab}
-        revLights={revLights()}
         sectors={sectors()}
       />
       

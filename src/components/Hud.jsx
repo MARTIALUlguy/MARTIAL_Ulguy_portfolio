@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useLang } from '../hooks/useLang';
 import { useTheme } from '../hooks/useTheme';
 import { useSound } from '../hooks/useSound';
-import { useProgress } from '../hooks/useProgress';
+import { useProgress, useRevLights } from '../hooks/useProgress';
 
 /**
  * Composant Hud - Barre sticky avec logo, onglets, contrôles
@@ -11,13 +11,13 @@ import { useProgress } from '../hooks/useProgress';
 export default function Hud({
   onTabChange,
   activeTab,
-  revLights,
   sectors
 }) {
   const { lang, toggleLang } = useLang();
   const { toggleTheme } = useTheme();
   const { toggleSound, getSoundLabel, beep } = useSound();
   const { allSectorsOn } = useProgress();
+  const revLights = useRevLights();
   const lapsRef = useRef(null);
 
   // Chrono

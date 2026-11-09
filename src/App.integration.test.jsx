@@ -3,6 +3,20 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import App from './App';
 import { renderWithProviders } from './test/renderWithProviders';
 
+const profileRenderSpy = vi.hoisted(() => vi.fn());
+
+vi.mock('./components/Profile', async (importOriginal) => {
+  const actual = await importOriginal();
+  const { createElement } = await import('react');
+  return {
+    ...actual,
+    default: function ProfileWithRenderSpy(props) {
+      profileRenderSpy();
+      return createElement(actual.default, props);
+    }
+  };
+});
+
 const restoreProperties = [];
 
 function setWindowProperty(name, value) {
@@ -123,12 +137,14 @@ describe('portfolio integration', () => {
 
     const { container } = renderPortfolio();
     expect(container.querySelectorAll('.rev u.on')).toHaveLength(1);
+    profileRenderSpy.mockClear();
 
     window.scrollY = 250;
     fireEvent.scroll(window);
     act(() => vi.advanceTimersByTime(16));
 
     expect(container.querySelectorAll('.rev u.on')).toHaveLength(6);
+    expect(profileRenderSpy).not.toHaveBeenCalled();
   });
 
   it('marks Contact seen through its observer and sets the all-sectors HUD state', () => {
