@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { act, screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders as render } from '../test/renderWithProviders';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Piles from './Piles';
@@ -122,6 +122,49 @@ describe('Piles component', () => {
     const proPile = screen.getByTestId('pile-pro');
     fireEvent.click(proPile);
     expect(mockOnDraw).toHaveBeenCalledWith('pro');
+  });
+
+  it('draws after the 640ms animation and ignores repeat clicks', () => {
+    render(
+      <>
+        <div className="deck" />
+        <Piles
+          piles={mockPiles}
+          discard={mockDiscard}
+          onDraw={mockOnDraw}
+          onDiscardFromDeck={mockOnDiscardFromDeck}
+        />
+      </>
+    );
+
+    fireEvent.click(screen.getByTestId('pile-pro'));
+    fireEvent.click(screen.getByTestId('pile-pro'));
+
+    expect(screen.getByTestId('pile-pro').querySelector('.pc.top')).toHaveClass('fly');
+    expect(mockOnDraw).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(639));
+    expect(mockOnDraw).not.toHaveBeenCalled();
+    act(() => vi.advanceTimersByTime(1));
+    expect(mockOnDraw).toHaveBeenCalledTimes(1);
+    expect(mockOnDraw).toHaveBeenCalledWith('pro');
+  });
+
+  it('flips a soon card for 1.9s without drawing it', () => {
+    const piles = { pro: [], sco: ['soon'], perso: [] };
+    render(
+      <Piles
+        piles={piles}
+        discard={mockDiscard}
+        onDraw={mockOnDraw}
+        onDiscardFromDeck={mockOnDiscardFromDeck}
+      />
+    );
+
+    fireEvent.click(screen.getByTestId('pile-sco'));
+    expect(screen.getByTestId('pile-sco').querySelector('.pc.top')).toHaveClass('fl');
+    act(() => vi.advanceTimersByTime(1900));
+    expect(mockOnDraw).not.toHaveBeenCalled();
+    expect(screen.getByTestId('pile-sco').querySelector('.pc.top')).not.toHaveClass('fl');
   });
 
   it('cleans up on unmount', () => {

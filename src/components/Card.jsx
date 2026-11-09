@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 import { useLang } from '../hooks/useLang';
 import { P, CAT, PN } from '../data/projects';
 
@@ -15,7 +15,8 @@ export default function Card({
   onDiscard,
   positionOffset = 0,
   isFresh = false,
-  isOut = false
+  isOut = false,
+  outStyle
 }) {
   const { t, lang } = useLang();
   const cardRef = useRef(null);
@@ -24,17 +25,6 @@ export default function Card({
   const o = positionOffset;
   const a = Math.abs(o);
   
-  // Annuler les animations au démontage
-  useEffect(() => {
-    const card = cardRef.current;
-    return () => {
-      if (card) {
-        // Annuler toute animation en cours
-        card.style.animation = 'none';
-      }
-    };
-  }, []);
-
   // Gestion du clic - ne pas avaler les clics des boutons internes
   const handleClick = useCallback((e) => {
     if (e.target.closest('.dx')) {
@@ -143,7 +133,11 @@ export default function Card({
     zIndex: 10 - a,
     transform: `translateX(calc(-50% + ${o} * 64px)) translateY(${a} * 8px) rotate(${o} * 5deg) scale(${1 - a * 0.05})`,
     transition: 'transform .7s cubic-bezier(.2, .9, .25, 1), filter .5s',
-    willChange: isActive ? 'transform' : 'auto'
+    willChange: isActive ? 'transform' : 'auto',
+    ...(isOut && outStyle ? {
+      '--dx': `${outStyle.dx}px`,
+      '--dy': `${outStyle.dy}px`
+    } : {})
   };
 
   // Classes CSS

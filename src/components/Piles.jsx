@@ -14,48 +14,66 @@ export default function Piles({
 }) {
   const { t, lang } = useLang();
   const pilesRef = useRef(null);
-  const [isReducedMotion, setIsReducedMotion] = useState(false);
-  const [isCalmMode, setIsCalmMode] = useState(false);
+  const animationTimerRef = useRef(null);
+  const isAnimatingRef = useRef(false);
+  const [animation, setAnimation] = useState(null);
   
-  // Vérifier prefers-reduced-motion et mode calme
   useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setIsReducedMotion(mediaQuery.matches);
-    setIsCalmMode(document.body.classList.contains('calm'));
-    
-    const handleChange = () => {
-      setIsReducedMotion(mediaQuery.matches);
-    };
-    
-    mediaQuery.addEventListener('change', handleChange);
-    
-    const handleCalmChange = () => {
-      setIsCalmMode(document.body.classList.contains('calm'));
-    };
-    
-    const observer = new MutationObserver(handleCalmChange);
-    observer.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-    
     return () => {
-      mediaQuery.removeEventListener('change', handleChange);
-      observer.disconnect();
+      window.clearTimeout(animationTimerRef.current);
     };
   }, []);
 
-  // Gestion du clic sur une pile
   const handlePileClick = useCallback((pileKey) => {
-    onDraw(pileKey);
-  }, [onDraw]);
+    if (isAnimatingRef.current) return;
+
+    const pile = pileKey === 'disc' ? discard : piles[pileKey];
+    if (!pile || pile.length === 0) return;
+
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const calmMode = document.body.classList.contains('calm');
+    if (reducedMotion || calmMode) {
+      onDraw(pileKey);
+      return;
+    }
+
+    if (pile[0] === 'soon') {
+      isAnimatingRef.current = true;
+      setAnimation({ pileKey, type: 'flip' });
+      animationTimerRef.current = window.setTimeout(() => {
+        isAnimatingRef.current = false;
+        animationTimerRef.current = null;
+        setAnimation(null);
+      }, 1900);
+      return;
+    }
+
+    const card = pilesRef.current?.querySelector(`.pl[data-k="${pileKey}"] .pc.top`);
+    const deck = document.querySelector('.deck');
+    if (!card || !deck) {
+      onDraw(pileKey);
+      return;
+    }
+
+    const cardRect = card.getBoundingClientRect();
+    const deckRect = deck.getBoundingClientRect();
+    const dx = deckRect.left + deckRect.width / 2 - cardRect.left - cardRect.width / 2;
+    const dy = deckRect.top + deckRect.height / 2 - cardRect.top - cardRect.height / 2;
+
+    isAnimatingRef.current = true;
+    setAnimation({ pileKey, type: 'draw', dx, dy });
+    animationTimerRef.current = window.setTimeout(() => {
+      isAnimatingRef.current = false;
+      animationTimerRef.current = null;
+      setAnimation(null);
+      onDraw(pileKey);
+    }, 640);
+  }, [discard, onDraw, piles]);
 
   // Calculer les cartes réelles (hors 'soon')
   const getRealCardsCount = useCallback((pile) => {
     return pile.filter(card => card !== 'soon').length;
   }, []);
-
-  // Vérifier si une pile a des cartes réelles
-  const hasRealCards = useCallback((pile) => {
-    return getRealCardsCount(pile) > 0;
-  }, [getRealCardsCount]);
 
   // Rendu d'une pile (pro, sco, perso)
   const renderPile = (pileKey, pileData) => {
@@ -68,7 +86,8 @@ export default function Piles({
     const displayCount = realCount + (hasSoon ? '+' : '');
     
     // La carte du dessus
-    const topCardIndex = pileData.find(c => c !== 'soon');
+    const soonOnTop = pileData[0] === 'soon';
+    const topCardIndex = soonOnTop ? undefined : pileData.find(c => c !== 'soon');
     const project = topCardIndex !== undefined ? P[topCardIndex] : null;
     const hasShot = project && project.shot !== null;
     
@@ -114,13 +133,17 @@ export default function Piles({
           {/* Carte du dessus */}
           {topCardIndex !== undefined ? (
             <div 
-              className="pc top"
+              className={`pc top${animation?.pileKey === pileKey && animation.type === 'draw' ? ' fly' : ''}`}
               style={{
                 position: 'absolute',
                 inset: '0',
                 borderRadius: '12px',
                 transform: 'none',
-                transition: 'transform .8s cubic-bezier(.2, .9, .25, 1)'
+                transition: 'transform .8s cubic-bezier(.2, .9, .25, 1)',
+                ...(animation?.pileKey === pileKey && animation.type === 'draw' ? {
+                  '--dx': `${animation.dx}px`,
+                  '--dy': `${animation.dy}px`
+                } : {})
               }}
             >
               <span 
@@ -145,6 +168,45 @@ export default function Piles({
               
               {/* Face avant (Bientôt) - masquée par défaut */}
               <span className="fr" style={{ background: 'var(--v)', color: '#fff', transform: 'rotateY(180deg)', fontSize: '.95rem', textAlign: 'center', padding: '10px', borderRadius: '12px' }}>
+                {t('Bientôt')}
+              </span>
+            </div>
+          ) : soonOnTop ? (
+            <div
+              className={`pc top${animation?.pileKey === pileKey && animation.type === 'flip' ? ' fl' : ''}`}
+              style={{
+                position: 'absolute',
+                inset: '0',
+                borderRadius: '12px',
+                transformStyle: 'preserve-3d'
+              }}
+            >
+              <span
+                className="bk"
+                style={{
+                  position: 'absolute',
+                  inset: '0',
+                  display: 'grid',
+                  placeItems: 'center',
+                  borderRadius: '12px',
+                  background: 'repeating-linear-gradient(0deg, #fff 0, #fff 4px, #000 4px, #000 8px)',
+                  backfaceVisibility: 'hidden'
+                }}
+              />
+              <span
+                className="fr"
+                style={{
+                  position: 'absolute',
+                  inset: '0',
+                  display: 'grid',
+                  placeItems: 'center',
+                  borderRadius: '12px',
+                  background: 'var(--v)',
+                  color: '#fff',
+                  transform: 'rotateY(180deg)',
+                  backfaceVisibility: 'hidden'
+                }}
+              >
                 {t('Bientôt')}
               </span>
             </div>

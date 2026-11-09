@@ -11,7 +11,8 @@ export default function Deck({
   hand, 
   activeIndex,
   onCardClick,
-  onCardDiscard
+  onCardDiscard,
+  leaving = {}
 }) {
   const { t, lang } = useLang();
   const deckRef = useRef(null);
@@ -103,6 +104,8 @@ export default function Deck({
             onDiscard={handleCardDiscard}
             positionOffset={i - activeIndex}
             isFresh={true}
+            isOut={!!leaving[projectIndex]}
+            outStyle={leaving[projectIndex]}
           />
         ))
       )}

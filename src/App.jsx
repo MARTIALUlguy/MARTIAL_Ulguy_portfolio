@@ -99,18 +99,13 @@ export default function App() {
       <Ticker />
       
       <main id="app">
-        {/* Onglet 0 : Profil */}
-        {activeTab === 0 && (
-          <>
-            <Profile onTabChange={handleTabChange} />
-            <Contact />
-          </>
-        )}
-        
-        {/* Onglet 1 : Projets & compétences */}
-        {activeTab === 1 && (
+        <div hidden={activeTab !== 0} aria-hidden={activeTab !== 0}>
+          <Profile onTabChange={handleTabChange} />
+          <Contact />
+        </div>
+        <div hidden={activeTab !== 1} aria-hidden={activeTab !== 1}>
           <Projects />
-        )}
+        </div>
       </main>
       
       <Footer onReplayIntro={handleReplayIntro} />

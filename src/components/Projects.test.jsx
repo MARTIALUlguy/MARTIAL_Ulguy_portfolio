@@ -1,4 +1,4 @@
-import { screen, fireEvent } from '@testing-library/react';
+import { act, screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders as render } from '../test/renderWithProviders';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Projects from './Projects';
@@ -73,18 +73,13 @@ describe('Projects component', () => {
     expect(screen.getByText('Stages')).toBeInTheDocument();
   });
 
-  it('soon card does not change state when drawn', () => {
+  it('draws the top school project after the animation', () => {
     render(<Projects />);
     
-    // The sco pile has 'soon' at the end
-    // Drawing from sco should not add 'soon' to hand
     fireEvent.click(screen.getByTestId('pile-sco'));
-    
-    // Wait for animation
-    vi.advanceTimersByTime(1900);
-    
-    // Hand should still have only real cards
-    expect(screen.getByText(/Main :/)).toBeInTheDocument();
+    expect(screen.getByText('Main : 2/6')).toBeInTheDocument();
+    act(() => vi.advanceTimersByTime(640));
+    expect(screen.getByText('Main : 3/6')).toBeInTheDocument();
   });
 
   it('discard is immediate in calm mode', async () => {
@@ -108,6 +103,19 @@ describe('Projects component', () => {
     
     // Cleanup
     document.body.classList.remove('calm');
+  });
+
+  it('keeps independent discard animations running for two cards', () => {
+    render(<Projects />);
+
+    fireEvent.click(screen.getByText('Défausser'));
+    fireEvent.click(screen.getByRole('button', { name: P[1].t }));
+    fireEvent.click(screen.getByText('Défausser'));
+
+    expect(document.querySelector('.card[data-i="0"]')).toHaveClass('out');
+    expect(document.querySelector('.card[data-i="1"]')).toHaveClass('out');
+    act(() => vi.advanceTimersByTime(480));
+    expect(screen.getByText('Main : 0/6')).toBeInTheDocument();
   });
 });
 
