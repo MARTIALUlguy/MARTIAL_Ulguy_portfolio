@@ -10,7 +10,7 @@ export default function Profile({ onTabChange }) {
   const { t, lang } = useLang();
   const { updateSeen } = useProgress();
   
-  // Photo URL - à remplacer par public/profil.jpg quand disponible
+  // Photo servie depuis public/profil.jpg
   const photoUrl = '/profil.jpg';
   
   // Référence pour la photo

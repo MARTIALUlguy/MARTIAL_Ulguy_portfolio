@@ -38,7 +38,7 @@ class MockResizeObserver {
 }
 
 // Mock matchMedia
-const mockMatchMedia = vi.fn().mockImplementation(query => ({
+const mockMatchMedia = query => ({
   matches: false,
   media: query,
   onchange: null,
@@ -47,7 +47,7 @@ const mockMatchMedia = vi.fn().mockImplementation(query => ({
   addEventListener: vi.fn(),
   removeEventListener: vi.fn(),
   dispatchEvent: vi.fn()
-}));
+});
 
 // Mock localStorage
 const mockLocalStorage = (() => {

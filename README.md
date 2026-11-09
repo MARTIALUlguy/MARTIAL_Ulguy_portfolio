@@ -1,22 +1,20 @@
 # Portfolio - Ulguy Martial
 
-Portfolio statique gamifié (HTML/CSS/JS pur) déployé sur Vercel.
+Portfolio-jeu React avec Vite, déployé sur Vercel.
 
 ## Structure
 
 ```
 .
-├── index.html              # Page principale
-├── assets/
-│   ├── css/
-│   │   └── style.css       # Styles (thèmes Open Cowork, Lunio, default)
-│   ├── js/
-│   │   ├── data.js         # Données des projets (v2)
-│   │   └── script.js       # Logique du portfolio (v2)
-│   └── images/
-│       └── profil.jpg      # Photo de profil (TODO: à fournir)
-└── resources/
-    └── opencowork-reference.jpg  # Capture de référence (à remettre)
+├── index.html
+├── public/
+│   └── profil.jpg          # Photo de profil
+└── src/
+    ├── App.jsx
+    ├── components/
+    ├── data/
+    ├── hooks/
+    └── state/
 ```
 
 ## Version actuelle
@@ -96,7 +94,7 @@ vercel --prod
 
 ### Après déploiement
 1. Mettre à jour `SITE_URL` dans `index.html` (ligne 6) avec le domaine Vercel réel
-2. S'assurer que `assets/images/profil.jpg` existe
+2. S'assurer que `public/profil.jpg` existe
 3. Pour Open Cowork : fournir les captures d'écran (après accord)
 
 ## Vérifications recommandées
@@ -123,7 +121,7 @@ Voir [TODO.md](TODO.md) pour la liste des informations à fournir.
 
 ## TODO restants (à compléter)
 
-- **photo** : `public/profil.jpg` à fournir (remplacer le data-URI actuel)
+- **photo** : `public/profil.jpg`
 - **PDF des CV** : Ajouter les fichiers PDF pour CV (FR) et CV (EN), et activer les boutons dans Contact.jsx
 - **liens d'AudioNote** : Fournir les URLs Vercel et GitHub pour AudioNote (actuellement boutons désactivés « bientôt »)
 - **captures shot** : Ajouter les captures d'écran (`shot`) pour les projets dans `data/projects.js`

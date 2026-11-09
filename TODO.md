@@ -23,9 +23,9 @@
 - **Intégration** : Décommenter et ajouter la section "Voir plus" dans la modale Open Cowork
 
 ### 4. **Image de profil**
-- **Fichier** : `assets/images/profil.jpg`
-- **Action** : S'assurer que le fichier existe et est optimisé (format JPG/PNG, taille raisonnable)
-- **URL** : Mettre à jour le commentaire `SITE_URL` dans `index.html` avec le domaine Vercel réel
+- **Fichier** : `public/profil.jpg`
+- **Action** : Vérifier que la photo est correctement publiée avec le site
+- **URL** : Vérifier que `og:image` est accessible sur le domaine Vercel réel
 
 ### 5. **TypeScript dans Open Cowork**
 - **Fichier** : `assets/js/data.js` → SKILLS
