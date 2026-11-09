@@ -1,130 +1,41 @@
-# Portfolio - Ulguy Martial
+# Portfolio — Ulguy Martial
 
-Portfolio-jeu React avec Vite, déployé sur Vercel.
+Portfolio interactif réalisé avec React et Vite. Le site présente mon profil, mes projets et mes compétences sous la forme d’un jeu de cartes.
 
-## Structure
+## Expérience
 
-```
-.
-├── index.html
-├── public/
-│   └── profil.jpg          # Photo de profil
-└── src/
-    ├── App.jsx
-    ├── components/
-    ├── data/
-    ├── hooks/
-    └── state/
-```
+- Une porte animée accueille les visiteurs et peut être rejouée depuis le pied de page.
+- Le HUD permet de passer du profil aux projets, affiche des voyants de progression liés au défilement et des secteurs de visite.
+- Le deck présente les projets sous forme de cartes. Elles peuvent être ouvertes pour consulter leurs détails, puis défaussées.
+- Des pioches regroupent les projets par catégorie ; piocher ajoute une carte au deck. Une pile dédiée reçoit les cartes défaussées.
+- Des filtres permettent de parcourir les projets par famille et par compétence.
+- L’interface et le contenu sont disponibles en français et en anglais.
+- Les thèmes clair et sombre sont pris en charge.
+- Le mode calme désactive les animations ; les effets sonores peuvent être réglés ou coupés depuis le HUD.
 
-## Version actuelle
+## Technologies
 
-**Version 2** - Migration du système XP pour éviter les collisions entre projets pro et perso.
+- React 18 et Vite
+- JavaScript et CSS
+- Vitest et Testing Library pour les tests
 
-### Changements majeurs
-
-#### Système XP (v2)
-- Projets pro : `PRO_<id>` (ex: `PRO_opencowork`)
-- Projets perso : `PERSO_<id>` (ex: `PERSO_audionote`)
-- Migration automatique : si `localStorage` contient d'anciennes clés (`P0`, `PP_`, etc.), elles sont réinitialisées avec conservation du XP
-
-#### Quêtes
-- Ouvre 3 projets : compte uniquement les projets pro (`PRO_*`)
-- Ouvre Open Cowork : +20 XP
-- Teste un projet perso : +30 XP (déclenchée au premier clic sur un lien de projet perso live)
-
-## Projets
-
-### Projets professionnels (6)
-1. **Open Cowork** - Stage jg&co (thème dédié)
-2. **Application de bridge** - 2025/2026 (TODO: stack à confirmer)
-3. **Stage Lunio** - 2025 (thème dédié)
-4. **Jeu pédagogique** - 2025 (Godot)
-5. **Application de vote** - 2024 (Java, MySQL)
-6. **Site web fictif** - 2023 (HTML, CSS)
-
-### Projets personnels (2)
-1. **AudioNote** - 2026 (PWA de notes vocales)
-   - Live: https://audio-notes-martial.vercel.app
-   - Code: https://github.com/MARTIALUlguy/AudioNotes
-2. **Générateur de sondages** - À venir (TODO: URLs)
-
-## Compétences (12 max)
-
-### Front
-- React
-- Next.js
-- TypeScript
-- Tailwind CSS
-
-### Back & données
-- Supabase
-- Firebase
-- Java
-- SQL
-- Django
-
-### Outils
-- Git / GitLab
-- Vercel
-- Godot
-
-## Technos utilisées
-
-### Devicon (via jsDelivr v2.16.0)
-- react, nextjs, typescript, tailwindcss, vitejs
-- java, firebase, supabase, postgresql, mysql
-- html5, css3, javascript, python, docker, gitlab
-- godot, vercel
-
-### Badges texte (pas de Devicon disponible)
-- GDScript, UML, IA, Caméra, IndexedDB, Groq, PWA
-
-## Déploiement
+## Développement
 
 ```bash
-# Déploiement direct (pas de build nécessaire)
-vercel
-
-# Pour production
-vercel --prod
+npm install
+npm run dev
 ```
 
-## Configuration requise
+Commandes de validation :
 
-### Après déploiement
-1. Mettre à jour `SITE_URL` dans `index.html` (ligne 6) avec le domaine Vercel réel
-2. S'assurer que `public/profil.jpg` existe
-3. Pour Open Cowork : fournir les captures d'écran (après accord)
+```bash
+npm run build
+npm test
+```
 
-## Vérifications recommandées
+## TODO
 
-1. Ouvrir dans un navigateur : pas d'erreurs console
-2. Tester le flux XP :
-   - Nouveau visiteur → ouvrir 3 projets → quête validée
-   - Cliquer sur lien AudioNote → quête perso validée
-3. Navigation clavier : Tab, Entrée, Échap
-4. Mode sombre (`prefers-color-scheme: dark`)
-5. Responsive : mobile 390px
-
-## Notes
-
-- **Mode sombre** : Activé automatiquement via `prefers-color-scheme: dark`
-- **Animations** : Désactivées avec `prefers-reduced-motion: reduce`
-- **Accessibilité** : Focus visible, contrastes ≥ 4.5:1, navigation clavier
-- **Performance** : Animation uniquement sur `transform` et `opacity`, lazy loading des images
-- **Pas de dépendances npm** : HTML/CSS/JS pur, Devicon via CDN
-
-## Prochaines étapes
-
-Voir [TODO.md](TODO.md) pour la liste des informations à fournir.
-
-## TODO restants (à compléter)
-
-- **photo** : `public/profil.jpg`
-- **PDF des CV** : Ajouter les fichiers PDF pour CV (FR) et CV (EN), et activer les boutons dans Contact.jsx
-- **liens d'AudioNote** : Fournir les URLs Vercel et GitHub pour AudioNote (actuellement boutons désactivés « bientôt »)
-- **captures shot** : Ajouter les captures d'écran (`shot`) pour les projets dans `data/projects.js`
-- **stack du bridge** : Confirmer et compléter la stack technique pour le projet Application de bridge
-- **TypeScript pour Open Cowork** : Mettre à jour l'information sur l'utilisation de TypeScript dans le projet Open Cowork
-- **URL absolue og:image** : Remplacer `https://TODO-DOMAINE.vercel.app/profil.jpg` par l'URL réelle dans les meta tags
+- Ajouter les PDF des CV français et anglais et activer leurs boutons.
+- Fournir les liens et captures d’écran d’AudioNote.
+- Confirmer et compléter la stack technique de l’application de bridge.
+- Confirmer l’utilisation de TypeScript dans Open Cowork.
