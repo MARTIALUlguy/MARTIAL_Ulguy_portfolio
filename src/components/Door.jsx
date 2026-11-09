@@ -3,7 +3,7 @@ import { useLang } from '../hooks/useLang';
 import { useSound } from '../hooks/useSound';
 import { useTheme } from '../hooks/useTheme';
 
-// Photo en data URI (à remplacer par l'image réelle plus tard)
+// Photo servie depuis public/profil.jpg
 const photoDataURI = '/profil.jpg';
 
 /**
@@ -11,7 +11,7 @@ const photoDataURI = '/profil.jpg';
  * Plein écran, z-index:100, fond #1b1d23 avec lamelles
  */
 export default function Door({ onIntroEnd, firstVisit }) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const { door: playDoorSound, handleUserGesture } = useSound();
   const { theme } = useTheme();
   const [isUp, setIsUp] = useState(false);
@@ -22,8 +22,8 @@ export default function Door({ onIntroEnd, firstVisit }) {
     if (firstVisit) {
       return t('Prendre le temps, c’est apprécier. Apprécier, c’est s’investir.');
     }
-    return lang === 'fr' ? 'Re-bonjour.' : 'Welcome back.';
-  }, [firstVisit, t, lang]);
+    return t('Re-bonjour.');
+  }, [firstVisit, t]);
 
   // Animation des mots (premier visite uniquement)
   const renderAnimatedText = useCallback(() => {

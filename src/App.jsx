@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback } from 'react';
 import Background from './components/Background';
 import Hud from './components/Hud';
 import Ticker from './components/Ticker';
@@ -11,6 +11,19 @@ import { useSound } from './hooks/useSound';
 import { useProgress } from './hooks/useProgress';
 import './styles.css';
 
+function getInitialDoorState() {
+  let firstVisit;
+  try {
+    firstVisit = !localStorage.getItem('um_seen');
+  } catch {
+    firstVisit = true;
+  }
+
+  const reducedMotion = typeof window.matchMedia === 'function' &&
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  return { firstVisit, showDoor: !reducedMotion };
+}
+
 /**
  * Composant App - Point d'entrée principal
  * Orchestre tous les composants
@@ -20,34 +33,12 @@ export default function App() {
   const { updateSeen, revLights, sectors } = useProgress();
   
   const [activeTab, setActiveTab] = useState(0);
-  const [showDoor, setShowDoor] = useState(true);
-  const [firstVisit, setFirstVisit] = useState(false);
-  const doorEndedRef = useRef(false);
-
-  // Vérifier si c'est la première visite
-  useEffect(() => {
-    try {
-      const seen = localStorage.getItem('um_seen');
-      setFirstVisit(!seen);
-      setShowDoor(!seen);
-    } catch {
-      setFirstVisit(true);
-      setShowDoor(true);
-    }
-  }, []);
+  const [doorState, setDoorState] = useState(getInitialDoorState);
+  const { showDoor, firstVisit } = doorState;
 
   // Gestion de la fin de l'intro
   const handleIntroEnd = useCallback(() => {
-    setShowDoor(false);
-    doorEndedRef.current = true;
-  }, []);
-
-  // Vérifier prefers-reduced-motion
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    if (mediaQuery.matches) {
-      setShowDoor(false);
-    }
+    setDoorState(current => ({ ...current, showDoor: false }));
   }, []);
 
   // Gestion du changement d'onglet
@@ -61,10 +52,8 @@ export default function App() {
 
   // Gestion du replay de l'intro
   const handleReplayIntro = useCallback(() => {
-    // Réinitialiser le state
-    setShowDoor(true);
-    setFirstVisit(true);
-    doorEndedRef.current = false;
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setDoorState({ showDoor: !reducedMotion, firstVisit: true });
     
     // Scroll en haut
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -82,7 +71,7 @@ export default function App() {
       <Background />
       
       {/* Door - Intro */}
-      {showDoor && !doorEndedRef.current && (
+      {showDoor && (
         <Door 
           onIntroEnd={handleIntroEnd}
           firstVisit={firstVisit}

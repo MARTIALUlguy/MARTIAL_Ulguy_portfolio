@@ -157,6 +157,12 @@ Object.defineProperty(window, 'AudioContext', {
   value: MockAudioContext
 });
 
+Object.defineProperty(window, 'scrollTo', {
+  writable: true,
+  configurable: true,
+  value: vi.fn()
+});
+
 Object.defineProperty(window, 'localStorage', {
   writable: true,
   configurable: true,
