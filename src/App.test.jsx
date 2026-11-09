@@ -1,46 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { renderWithProviders as render } from './test/renderWithProviders';
 import App from './App';
-
-// Mock des hooks
-vi.mock('./hooks/useLang', () => ({
-  useLang: () => ({
-    lang: 'fr',
-    t: (key) => key,
-    setLang: vi.fn(),
-    toggleLang: vi.fn()
-  })
-}));
-
-vi.mock('./hooks/useTheme', () => ({
-  useTheme: () => ({
-    theme: 'light',
-    setTheme: vi.fn(),
-    toggleTheme: vi.fn()
-  })
-}));
-
-vi.mock('./hooks/useSound', () => ({
-  useSound: () => ({
-    soundLevel: 1,
-    toggleSound: vi.fn(),
-    getSoundLabel: () => 'doux',
-    handleUserGesture: vi.fn(),
-    beep: vi.fn(),
-    door: vi.fn()
-  })
-}));
-
-vi.mock('./hooks/useProgress', () => ({
-  useProgress: () => ({
-    scrollProgress: 0,
-    seen: { 0: 1, c: 0, k: 0 },
-    updateSeen: vi.fn(),
-    revLights: () => [],
-    sectors: () => [],
-    allSectorsOn: () => false
-  })
-}));
 
 // Mock localStorage
 const mockLocalStorage = (() => {

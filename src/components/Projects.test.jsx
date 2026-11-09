@@ -1,23 +1,9 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+import { renderWithProviders as render } from '../test/renderWithProviders';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Projects from './Projects';
 import { cardsReducer, initialState, ACTIONS } from '../state/cards';
 import { P } from '../data/projects';
-
-// Mock useLang
-vi.mock('../hooks/useLang', () => ({
-  useLang: () => ({ t: (k) => k, lang: 'fr' })
-}));
-
-// Mock useProgress
-vi.mock('../hooks/useProgress', () => ({
-  useProgress: () => ({ updateSeen: vi.fn() })
-}));
-
-// Mock useSound
-vi.mock('../hooks/useSound', () => ({
-  useSound: () => ({ beep: vi.fn() })
-}));
 
 describe('Projects component', () => {
   beforeEach(() => {

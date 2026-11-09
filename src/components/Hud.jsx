@@ -1,4 +1,8 @@
 import { useEffect, useRef } from 'react';
+import { useLang } from '../hooks/useLang';
+import { useTheme } from '../hooks/useTheme';
+import { useSound } from '../hooks/useSound';
+import { useProgress } from '../hooks/useProgress';
 
 /**
  * Composant Hud - Barre sticky avec logo, onglets, contrôles
@@ -7,20 +11,13 @@ import { useEffect, useRef } from 'react';
 export default function Hud({
   onTabChange,
   activeTab,
-  lang,
-  toggleLang,
-  theme,
-  toggleTheme,
-  soundLevel,
-  toggleSound,
-  getSoundLabel,
-  scrollProgress,
-  seen,
   revLights,
-  sectors,
-  allSectorsOn,
-  beep
+  sectors
 }) {
+  const { lang, toggleLang } = useLang();
+  const { toggleTheme } = useTheme();
+  const { toggleSound, getSoundLabel, beep } = useSound();
+  const { allSectorsOn } = useProgress();
   const lapsRef = useRef(null);
 
   // Chrono
@@ -39,25 +36,9 @@ export default function Hud({
     return () => clearInterval(interval);
   }, []);
 
-  // Gestion du scroll pour les voyants de rev
-  useEffect(() => {
-    const handleScroll = () => {
-      const root = document.documentElement;
-      const scrollHeight = root.scrollHeight - window.innerHeight;
-      if (scrollHeight > 0) {
-        const progress = window.scrollY / scrollHeight;
-        // scrollProgress est déjà mis à jour par useProgress
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
   // Gestion des onglets
   const handleTabClick = (tabIndex) => {
     onTabChange(tabIndex);
-    beep(380 + 90 * tabIndex);
   };
 
   // Gestion du mode calme
@@ -115,7 +96,7 @@ export default function Hud({
         
         {/* Secteurs */}
         <span 
-          className={`seg ${allSectorsOn ? 'all' : ''}`} 
+          className={`seg ${allSectorsOn() ? 'all' : ''}`}
           title={lang === 'fr' ? 'Secteurs : profil, projets, deck, contact' : 'Sectors: profile, projects, deck, contact'}
         >
           {sectors.map((sector, i) => (

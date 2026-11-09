@@ -1,12 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+import { renderWithProviders as render } from '../test/renderWithProviders';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Deck from './Deck';
 import { P } from '../data/projects';
-
-// Mock useLang before imports
-vi.mock('../hooks/useLang', () => ({
-  useLang: () => ({ t: (k) => k, lang: 'fr' })
-}));
 
 describe('Deck component', () => {
   const mockOnCardClick = vi.fn();

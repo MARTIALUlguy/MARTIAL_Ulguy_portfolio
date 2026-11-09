@@ -12,7 +12,7 @@ const photoDataURI = '/profil.jpg';
  */
 export default function Door({ onIntroEnd, firstVisit }) {
   const { t, lang } = useLang();
-  const { door: playDoorSound } = useSound();
+  const { door: playDoorSound, handleUserGesture } = useSound();
   const { theme } = useTheme();
   const [isUp, setIsUp] = useState(false);
   const timeoutRef = useRef(null);
@@ -100,8 +100,9 @@ export default function Door({ onIntroEnd, firstVisit }) {
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current);
     }
+    handleUserGesture();
     raiseDoor();
-  }, [raiseDoor]);
+  }, [handleUserGesture, raiseDoor]);
 
   // Ne pas afficher si prefers-reduced-motion
   useEffect(() => {

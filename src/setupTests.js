@@ -37,6 +37,60 @@ class MockResizeObserver {
   disconnect() {}
 }
 
+class MockAudioContext {
+  constructor() {
+    this.currentTime = 0;
+    this.sampleRate = 44100;
+    this.state = 'running';
+    this.destination = {};
+  }
+
+  createOscillator() {
+    return {
+      frequency: { value: 0, setValueAtTime: vi.fn(), linearRampToValueAtTime: vi.fn() },
+      connect: vi.fn(),
+      start: vi.fn(),
+      stop: vi.fn()
+    };
+  }
+
+  createGain() {
+    return {
+      gain: {
+        value: 0,
+        setValueAtTime: vi.fn(),
+        exponentialRampToValueAtTime: vi.fn()
+      },
+      connect: vi.fn()
+    };
+  }
+
+  createBuffer() {
+    return { getChannelData: () => new Float32Array(1) };
+  }
+
+  createBufferSource() {
+    return { connect: vi.fn(), start: vi.fn(), stop: vi.fn() };
+  }
+
+  createBiquadFilter() {
+    return {
+      type: '',
+      frequency: { setValueAtTime: vi.fn(), exponentialRampToValueAtTime: vi.fn() },
+      connect: vi.fn()
+    };
+  }
+
+  resume() {
+    return Promise.resolve();
+  }
+
+  close() {
+    this.state = 'closed';
+    return Promise.resolve();
+  }
+}
+
 // Mock matchMedia
 const mockMatchMedia = query => ({
   matches: false,
@@ -83,6 +137,24 @@ Object.defineProperty(window, 'matchMedia', {
   writable: true,
   configurable: true,
   value: mockMatchMedia
+});
+
+Object.defineProperty(window, 'requestAnimationFrame', {
+  writable: true,
+  configurable: true,
+  value: callback => window.setTimeout(callback, 16)
+});
+
+Object.defineProperty(window, 'cancelAnimationFrame', {
+  writable: true,
+  configurable: true,
+  value: timer => window.clearTimeout(timer)
+});
+
+Object.defineProperty(window, 'AudioContext', {
+  writable: true,
+  configurable: true,
+  value: MockAudioContext
 });
 
 Object.defineProperty(window, 'localStorage', {

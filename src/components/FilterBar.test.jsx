@@ -1,16 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+import { renderWithProviders as render } from '../test/renderWithProviders';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import FilterBar from './FilterBar';
-
-// Mock useLang
-vi.mock('../hooks/useLang', () => ({
-  useLang: () => ({ t: (k) => k, lang: 'fr' })
-}));
-
-// Mock useSound
-vi.mock('../hooks/useSound', () => ({
-  useSound: () => ({ beep: vi.fn() })
-}));
 
 describe('FilterBar component', () => {
   const mockOnDeal = vi.fn();

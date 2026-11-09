@@ -2,7 +2,8 @@
  * Composant Footer - Pied de page
  * Affiche le copyright et un bouton pour rejouer l'intro
  */
-export default function Footer({ lang, t, onReplayIntro }) {
+export default function Footer({ onReplayIntro }) {
+  const { t } = useLang();
   return (
     <footer className="m">
       {t('© 2026 Ulguy Martial · Brétigny-sur-Orge (91)')}
@@ -17,3 +18,4 @@ export default function Footer({ lang, t, onReplayIntro }) {
     </footer>
   );
 }
+import { useLang } from '../hooks/useLang';

@@ -1,16 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { render, screen } from '@testing-library/react';
+import { screen } from '@testing-library/react';
+import { renderWithProviders as render } from '../test/renderWithProviders';
 import Skills from './Skills';
-
-// Mock des hooks
-vi.mock('../hooks/useLang', () => ({
-  useLang: () => ({
-    lang: 'fr',
-    t: (key) => key,
-    setLang: vi.fn(),
-    toggleLang: vi.fn()
-  })
-}));
 
 describe('Skills component', () => {
   beforeEach(() => {

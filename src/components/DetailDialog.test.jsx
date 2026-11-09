@@ -1,12 +1,8 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+import { renderWithProviders as render } from '../test/renderWithProviders';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import DetailDialog from './DetailDialog';
 import { P } from '../data/projects';
-
-// Mock useLang
-vi.mock('../hooks/useLang', () => ({
-  useLang: () => ({ t: (k) => k, lang: 'fr' })
-}));
 
 // Mock HTMLDialogElement.showModal
 beforeEach(() => {

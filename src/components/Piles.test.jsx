@@ -1,25 +1,7 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { screen, fireEvent } from '@testing-library/react';
+import { renderWithProviders as render } from '../test/renderWithProviders';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import Piles from './Piles';
-
-// Mock useLang before imports
-vi.mock('../hooks/useLang', () => ({
-  useLang: () => ({ t: (k) => k, lang: 'fr' })
-}));
-
-// Mock window.matchMedia
-vi.stubGlobal('matchMedia', () => ({
-  matches: false,
-  addEventListener: vi.fn(),
-  removeEventListener: vi.fn()
-}));
-
-// Mock MutationObserver
-vi.stubGlobal('MutationObserver', class {
-  constructor() {}
-  observe() {}
-  disconnect() {}
-});
 
 describe('Piles component', () => {
   const mockPiles = {

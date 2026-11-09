@@ -2,7 +2,8 @@
  * Composant Ticker - Bandeau défilant sous le HUD
  * Texte défilant avec animation linéaire infinie
  */
-export default function Ticker({ lang, t }) {
+export default function Ticker() {
+  const { lang } = useLang();
   const getTickerText = () => {
     if (lang === 'en') {
       return [
@@ -38,3 +39,4 @@ export default function Ticker({ lang, t }) {
     </div>
   );
 }
+import { useLang } from '../hooks/useLang';

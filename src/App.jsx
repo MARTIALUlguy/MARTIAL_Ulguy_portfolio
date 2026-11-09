@@ -7,8 +7,6 @@ import Door from './components/Door';
 import Profile from './components/Profile';
 import Contact from './components/Contact';
 import Projects from './components/Projects';
-import { useLang } from './hooks/useLang';
-import { useTheme } from './hooks/useTheme';
 import { useSound } from './hooks/useSound';
 import { useProgress } from './hooks/useProgress';
 import './styles.css';
@@ -18,10 +16,8 @@ import './styles.css';
  * Orchestre tous les composants
  */
 export default function App() {
-  const { lang, t, setLang, toggleLang } = useLang('fr');
-  const { theme, toggleTheme } = useTheme();
-  const { soundLevel, toggleSound, getSoundLabel, handleUserGesture, beep } = useSound();
-  const { scrollProgress, seen, updateSeen, revLights, sectors, allSectorsOn } = useProgress();
+  const { beep } = useSound();
+  const { updateSeen, revLights, sectors } = useProgress();
   
   const [activeTab, setActiveTab] = useState(0);
   const [showDoor, setShowDoor] = useState(true);
@@ -44,9 +40,7 @@ export default function App() {
   const handleIntroEnd = useCallback(() => {
     setShowDoor(false);
     doorEndedRef.current = true;
-    // Déverrouiller l'audio après le geste (clic sur le bouton ou timeout)
-    handleUserGesture();
-  }, [handleUserGesture]);
+  }, []);
 
   // Vérifier prefers-reduced-motion
   useEffect(() => {
@@ -98,22 +92,11 @@ export default function App() {
       <Hud 
         onTabChange={handleTabChange}
         activeTab={activeTab}
-        lang={lang}
-        toggleLang={toggleLang}
-        theme={theme}
-        toggleTheme={toggleTheme}
-        soundLevel={soundLevel}
-        toggleSound={toggleSound}
-        getSoundLabel={getSoundLabel}
-        scrollProgress={scrollProgress}
-        seen={seen}
         revLights={revLights()}
         sectors={sectors()}
-        allSectorsOn={allSectorsOn()}
-        beep={beep}
       />
       
-      <Ticker lang={lang} t={t} />
+      <Ticker />
       
       <main id="app">
         {/* Onglet 0 : Profil */}
@@ -130,11 +113,7 @@ export default function App() {
         )}
       </main>
       
-      <Footer 
-        lang={lang}
-        t={t}
-        onReplayIntro={handleReplayIntro}
-      />
+      <Footer onReplayIntro={handleReplayIntro} />
     </>
   );
 }
