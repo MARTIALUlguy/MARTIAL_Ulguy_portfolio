@@ -142,6 +142,7 @@ export const i18n = {
     
     // ARIA
     'Départ': 'Départ',
+    'Portrait d’Ulguy Martial': 'Portrait d’Ulguy Martial',
     'Start': 'Start'
   },
   en: {
@@ -285,6 +286,7 @@ export const i18n = {
     
     // ARIA
     'Départ': 'Start',
+    'Portrait d’Ulguy Martial': 'Portrait of Ulguy Martial',
     'Start': 'Start'
   }
 };

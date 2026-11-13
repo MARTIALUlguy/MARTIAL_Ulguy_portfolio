@@ -45,7 +45,7 @@ describe('Profile component', () => {
     render(<Profile onTabChange={() => {}} />);
     const img = screen.getByRole('img');
     expect(img).toBeInTheDocument();
-    expect(img).toHaveAttribute('alt', 'Départ');
+    expect(img).toHaveAttribute('alt', 'Portrait d’Ulguy Martial');
   });
 
   it('renders gauges', () => {

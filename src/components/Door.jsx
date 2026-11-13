@@ -123,7 +123,7 @@ export default function Door({ onIntroEnd, firstVisit }) {
       <div className="dc">
         <img 
           src={photoDataURI} 
-          alt={t('Départ')} 
+          alt={t('Portrait d’Ulguy Martial')}
           style={{ animation: 'fl 4s ease-in-out infinite alternate' }}
         />
         {renderAnimatedText()}

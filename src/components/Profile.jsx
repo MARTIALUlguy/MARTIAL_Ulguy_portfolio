@@ -221,7 +221,7 @@ export default function Profile({ onTabChange }) {
           <div className="ph" ref={photoRef}>
             <img 
               src={photoUrl}
-              alt={t('Départ')}
+              alt={t('Portrait d’Ulguy Martial')}
               width="240"
               height="240"
               style={{ maxWidth: 'min(240px, 60vw)' }}
