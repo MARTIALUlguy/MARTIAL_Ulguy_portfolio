@@ -1342,3 +1342,10 @@ button,input,select,textarea{font:inherit;color:inherit}.logo{font:800 1.1rem So
 @keyframes zoom{from{transform:scale(1.05);opacity:.5}}
 @keyframes mq{to{transform:translateX(-50%)}}
 .pl .m{white-space:nowrap}
+
+@media (max-width: 760px) {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+}

@@ -44,6 +44,12 @@ describe('CSS regression guards', () => {
     expect(getLastRule('h1')).toMatch(/clamp\s*\(/);
   });
 
+  it('stacks the profile hero on narrow screens', () => {
+    expect(styles).toMatch(
+      /@media\s*\(max-width:\s*760px\)[\s\S]*?\.hero\s*\{[^}]*grid-template-columns:\s*1fr/
+    );
+  });
+
   it.each(['.btn', '.logo'])('%s declares its font', selector => {
     expect(getLastRule(selector)).toMatch(/(?:^|;)\s*font(?:-family)?\s*:/);
   });
